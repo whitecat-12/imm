@@ -5,370 +5,625 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pemilihan Formatur JPMIPA IMM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
- <style>
+<style>
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, sans-serif;
     }
 
     :root {
         --maroon: #800000;
         --light-maroon: #a52a2a;
         --dark-maroon: #5a0000;
-        --cream: #f5f5dc;
-        --gold: #daa520;
-        --light-gold: #f0d483;
-        --success: #28a745;
-        --danger: #dc3545;
+        --cream: #faf7f2;
+        --cream-dark: #f2ede4;
+        --gold: #d4a017;
+        --gold-light: #f0d483;
+        --gold-pale: #fbf6e9;
+        --text-dark: #1f1a17;
+        --text-mid: #57504a;
+        --text-light: #8a8178;
+        --white: #ffffff;
+        --success: #16a34a;
+        --success-bg: #dcfce7;
+        --danger: #dc2626;
+        --danger-bg: #fee2e2;
+        --border: #ece6da;
+        --shadow-sm: 0 2px 8px rgba(90, 0, 0, 0.06);
+        --shadow-md: 0 8px 24px rgba(90, 0, 0, 0.08);
+        --shadow-lg: 0 20px 50px rgba(90, 0, 0, 0.12);
+        --radius: 20px;
+        --radius-sm: 12px;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
-        background-color: var(--cream);
-        color: #333;
-        line-height: 1.6;
+        background:
+            radial-gradient(1200px 600px at 100% -10%, rgba(212, 160, 23, 0.08), transparent 60%),
+            radial-gradient(900px 500px at 0% 0%, rgba(128, 0, 0, 0.06), transparent 55%),
+            var(--cream);
+        color: var(--text-dark);
+        line-height: 1.65;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
     }
 
     .container {
-        max-width: 1200px;
+        max-width: 1240px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 24px;
     }
 
-    /* Header Styles - IMPROVED */
+    /* ============================================
+       MODERN FLOATING HEADER
+    ============================================ */
     header {
-        background: linear-gradient(135deg, var(--dark-maroon), var(--maroon));
-        color: white;
-        padding: 0.8rem 0;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, rgba(90, 0, 0, 0.96), rgba(128, 0, 0, 0.96) 55%, rgba(150, 24, 24, 0.96));
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        color: var(--white);
+        padding: 0.7rem 1.4rem;
+        box-shadow:
+            0 14px 44px -14px rgba(90, 0, 0, 0.55),
+            0 4px 14px rgba(0, 0, 0, 0.18),
+            inset 0 1px 0 rgba(255, 255, 255, 0.18);
         position: sticky;
-        top: 0;
+        top: 14px;
         z-index: 1000;
+        border-radius: 24px;
+        margin: 14px 20px 28px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        transition: box-shadow 0.4s ease, transform 0.4s ease;
     }
+
+    header::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        padding: 1px;
+        background: linear-gradient(135deg,
+            rgba(240, 212, 131, 0.4),
+            rgba(255, 255, 255, 0.05) 40%,
+            rgba(240, 212, 131, 0.25));
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    header:hover {
+        box-shadow:
+            0 20px 56px -14px rgba(90, 0, 0, 0.6),
+            0 8px 20px rgba(0, 0, 0, 0.22),
+            inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        transform: translateY(-1px);
+    }
+
+    header .container { padding: 0; }
 
     .header-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 16px;
     }
 
     .logo {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
     }
 
     .logo-icon {
         width: 50px;
-        height: 50px;       
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
+        border-radius: 50%;
+        background: var(--white);
+        box-shadow:
+            0 0 0 2px rgba(212, 160, 23, 0.6),
+            0 6px 18px rgba(0, 0, 0, 0.28);
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
     }
 
-    .logo i {
-        font-size: 1.8rem;
-        color: var(--dark-maroon);
+    .logo-icon:hover {
+        transform: scale(1.08) rotate(5deg);
+        box-shadow:
+            0 0 0 3px rgba(240, 212, 131, 0.85),
+            0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .logo-icon img {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        object-fit: cover;
     }
 
     .logo-text h1 {
-        font-size: 1.6rem;
-        font-weight: 700;
-        line-height: 1.2;
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
     }
 
     .logo-text span {
-        font-size: 0.9rem;
+        font-size: 0.78rem;
         display: block;
-        font-weight: 400;
-        opacity: 0.9;
+        font-weight: 500;
+        opacity: 0.85;
+        letter-spacing: 0.02em;
     }
 
     nav ul {
         display: flex;
         list-style: none;
-        gap: 5px;
+        gap: 4px;
+        align-items: center;
     }
 
-    nav ul li {
-        position: relative;
-    }
+    nav ul li { position: relative; }
 
     nav ul li a {
-        color: white;
+        color: rgba(255, 255, 255, 0.92);
         text-decoration: none;
-        font-weight: 500;
-        padding: 8px 16px;
-        border-radius: 6px;
-        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 9px 14px;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 7px;
+        border: 1px solid transparent;
+        white-space: nowrap;
     }
 
     nav ul li a:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px);
+        background: linear-gradient(135deg, rgba(240, 212, 131, 0.2), rgba(255, 255, 255, 0.08));
+        transform: translateY(-1px);
+        color: var(--gold-light);
+        border-color: rgba(240, 212, 131, 0.3);
     }
 
     nav ul li a.active {
-        background: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, rgba(212, 160, 23, 0.3), rgba(255, 255, 255, 0.14));
+        border-color: rgba(240, 212, 131, 0.45);
+        box-shadow:
+            0 4px 14px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        color: var(--gold-light);
     }
 
     .user-info {
         display: none;
         align-items: center;
-        background: rgba(255, 255, 255, 0.15);
-        padding: 6px 14px;
+        background: linear-gradient(135deg, rgba(240, 212, 131, 0.22), rgba(255, 255, 255, 0.1));
+        padding: 7px 16px;
         border-radius: 20px;
-        margin-left: 10px;
+        margin-left: 8px;
         gap: 8px;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid rgba(240, 212, 131, 0.35);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
     }
 
-    .user-info i {
-        font-size: 1rem;
-    }
-
-    /* Mobile Menu Button */
     .mobile-menu-btn {
         display: none;
-        background: none;
-        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
         color: white;
-        font-size: 1.5rem;
+        font-size: 1.15rem;
         cursor: pointer;
-        padding: 5px;
+        padding: 9px 13px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
     }
 
-    /* Hero Section */
+    .mobile-menu-btn:hover {
+        background: rgba(255, 255, 255, 0.22);
+        transform: scale(1.05);
+    }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
     .hero {
-        background: linear-gradient(rgba(128, 0, 0, 0.8), rgba(128, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+        position: relative;
+        color: var(--white);
+        text-align: center;
+        padding: 5rem 2rem 4.5rem;
+        margin: 0 20px 3rem;
+        border-radius: 28px;
+        overflow: hidden;
+        background:
+            linear-gradient(135deg, rgba(90, 0, 0, 0.9), rgba(128, 0, 0, 0.82) 60%, rgba(90, 0, 0, 0.94)),
+            url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
         background-size: cover;
         background-position: center;
-        color: white;
-        text-align: center;
-        padding: 5rem 0;
-        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(800px 400px at 20% 20%, rgba(240, 212, 131, 0.14), transparent 60%),
+            radial-gradient(600px 300px at 80% 80%, rgba(255, 255, 255, 0.08), transparent 60%);
+        pointer-events: none;
+    }
+
+    .hero .container { position: relative; z-index: 1; }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(240, 212, 131, 0.16);
+        border: 1px solid rgba(240, 212, 131, 0.4);
+        padding: 7px 18px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        margin-bottom: 1.5rem;
+        backdrop-filter: blur(10px);
     }
 
     .hero h2 {
-        font-size: 2.5rem;
+        font-size: clamp(1.9rem, 4.5vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
         margin-bottom: 1rem;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
     }
 
     .hero p {
-        font-size: 1.2rem;
-        max-width: 700px;
-        margin: 0 auto 2rem;
+        font-size: clamp(1rem, 1.6vw, 1.15rem);
+        max-width: 640px;
+        margin: 0 auto 2.2rem;
+        opacity: 0.92;
+        line-height: 1.7;
     }
 
+    /* ============================================
+       BUTTONS
+    ============================================ */
     .btn {
-        display: inline-block;
-        background: var(--gold);
-        color: white;
-        padding: 12px 30px;
-        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%);
+        color: var(--white);
+        padding: 13px 32px;
+        border-radius: 14px;
         text-decoration: none;
-        font-weight: bold;
-        transition: all 0.3s;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.01em;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border: none;
         cursor: pointer;
+        box-shadow: 0 6px 18px rgba(212, 160, 23, 0.35);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
     }
 
     .btn:hover {
-        background: #b8860b;
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 26px rgba(212, 160, 23, 0.45);
     }
 
+    .btn:hover::before { opacity: 1; }
+
+    .btn:active { transform: translateY(0); }
+
     .btn-secondary {
-        background: var(--light-maroon);
+        background: linear-gradient(135deg, var(--light-maroon), var(--dark-maroon));
+        box-shadow: 0 6px 18px rgba(128, 0, 0, 0.25);
     }
 
     .btn-secondary:hover {
-        background: var(--dark-maroon);
+        box-shadow: 0 10px 26px rgba(128, 0, 0, 0.35);
     }
 
     .btn-danger {
-        background: var(--danger);
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        box-shadow: 0 6px 18px rgba(220, 38, 38, 0.28);
     }
 
     .btn-danger:hover {
-        background: #c82333;
+        box-shadow: 0 10px 26px rgba(220, 38, 38, 0.4);
     }
 
-    /* Candidates Section */
+    /* ============================================
+       SECTION TITLE
+    ============================================ */
     .section-title {
         text-align: center;
-        margin: 3rem 0 2rem;
-        color: var(--maroon);
+        margin: 3.5rem 0 2.5rem;
+        color: var(--text-dark);
+        font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
         position: relative;
+        padding-bottom: 1rem;
     }
 
-    .section-title:after {
+    .section-title::after {
         content: '';
-        display: block;
-        width: 100px;
-        height: 3px;
-        background: var(--maroon);
-        margin: 10px auto;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, var(--gold), var(--light-maroon));
     }
 
+    /* ============================================
+       CANDIDATE CARDS
+    ============================================ */
     .candidates {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin-bottom: 3rem;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 1.75rem;
+        margin-bottom: 4rem;
     }
 
     .candidate-card {
-        background: white;
-        border-radius: 10px;
+        background: var(--white);
+        border-radius: var(--radius);
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--border);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .candidate-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--gold), var(--light-maroon));
+        opacity: 0;
+        transition: opacity 0.35s;
+        z-index: 2;
     }
 
     .candidate-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(212, 160, 23, 0.35);
     }
 
+    .candidate-card:hover::before { opacity: 1; }
+
     .candidate-img {
-        height: 250px;
-        background-color: var(--light-maroon);
+        height: 260px;
+        background: linear-gradient(135deg, var(--light-maroon), var(--dark-maroon));
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-size: 5rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 4.5rem;
         overflow: hidden;
+        position: relative;
     }
 
     .candidate-img img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .candidate-card:hover .candidate-img img {
+        transform: scale(1.06);
     }
 
     .candidate-info {
-        padding: 1.5rem;
+        padding: 1.5rem 1.6rem 1.7rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .candidate-info h3 {
-        color: var(--maroon);
-        margin-bottom: 0.5rem;
+        color: var(--text-dark);
+        margin-bottom: 0.35rem;
+        font-size: 1.15rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+
+    .candidate-info > p:first-of-type {
+        color: var(--text-light);
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .candidate-info > p:first-of-type::before {
+        content: '🎓';
+        font-size: 0.9rem;
     }
 
     .candidate-info p {
-        margin-bottom: 1rem;
-        color: #666;
+        margin-bottom: 0.6rem;
+        color: var(--text-mid);
+        font-size: 0.9rem;
+        line-height: 1.55;
     }
 
-    /* Vote Section - MODIFIED untuk multiple selection */
+    .candidate-info p strong {
+        color: var(--maroon);
+        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 2px;
+    }
+
+    .candidate-info ul {
+        margin-left: 1.15rem;
+        margin-top: 0.2rem;
+        color: var(--text-mid);
+        font-size: 0.88rem;
+    }
+
+    .candidate-info ul li {
+        margin-bottom: 3px;
+        line-height: 1.5;
+    }
+
+    /* ============================================
+       VOTE SECTION
+    ============================================ */
     .vote-section {
-        background: white;
-        border-radius: 10px;
-        padding: 2rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        margin-bottom: 3rem;
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 2.2rem;
+        box-shadow: var(--shadow-md);
+        margin-bottom: 4rem;
+        border: 1px solid var(--border);
     }
 
-    .vote-section p:first-of-type {
-        margin-bottom: 1.5rem;
-        padding: 1rem;
-        background: #fff9e6;
-        border-radius: 5px;
+    .vote-section > p:first-of-type {
+        margin-bottom: 1.8rem;
+        padding: 1.15rem 1.4rem;
+        background: linear-gradient(135deg, var(--gold-pale), #fffdf7);
+        border-radius: var(--radius-sm);
         border-left: 4px solid var(--gold);
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: var(--text-dark);
+        line-height: 1.6;
     }
 
     .vote-options {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 1rem;
         margin: 2rem 0;
     }
 
     .vote-option {
-        flex: 1;
-        min-width: 200px;
         text-align: center;
-        padding: 1rem;
-        border: 2px solid #ddd;
-        border-radius: 8px;
+        padding: 1.4rem 1rem;
+        border: 2px solid var(--border);
+        border-radius: 16px;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
+        background: var(--white);
+        user-select: none;
     }
 
     .vote-option:hover {
-        border-color: var(--maroon);
-        transform: translateY(-2px);
-        box-shadow: 0 2px 8px rgba(128, 0, 0, 0.1);
+        border-color: var(--gold);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(212, 160, 23, 0.15);
     }
 
     .vote-option.selected {
         border-color: var(--maroon);
-        background: rgba(128, 0, 0, 0.08);
-        box-shadow: 0 4px 12px rgba(128, 0, 0, 0.2);
-        transform: translateY(-2px);
+        background: linear-gradient(180deg, rgba(128, 0, 0, 0.04), rgba(128, 0, 0, 0.08));
+        box-shadow: 0 8px 24px rgba(128, 0, 0, 0.18);
+        transform: translateY(-3px);
     }
 
     .vote-option.selected::after {
         content: '✓';
         position: absolute;
-        top: 8px;
-        right: 8px;
-        background: var(--maroon);
+        top: 10px;
+        right: 10px;
+        background: linear-gradient(135deg, var(--maroon), var(--dark-maroon));
         color: white;
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: bold;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 3px 10px rgba(128, 0, 0, 0.35);
+        animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    /* NEW: Vote option ketika mencapai batas maksimal */
+    @keyframes popIn {
+        0% { transform: scale(0); }
+        70% { transform: scale(1.15); }
+        100% { transform: scale(1); }
+    }
+
     .vote-option.max-reached:not(.selected) {
-        opacity: 0.5;
+        opacity: 0.4;
         cursor: not-allowed;
-        background: #f8f9fa;
+        background: #f8f6f1;
+        filter: grayscale(0.4);
     }
 
     .vote-option.max-reached:not(.selected):hover {
-        border-color: #ddd;
+        border-color: var(--border);
         transform: none;
         box-shadow: none;
     }
 
     .vote-option-img {
-        width: 80px;
-        height: 80px;
+        width: 78px;
+        height: 78px;
         border-radius: 50%;
         overflow: hidden;
-        margin: 0 auto 10px;
-        background: #f0f0f0;
+        margin: 0 auto 12px;
+        background: var(--cream-dark);
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid var(--maroon);
+        border: 3px solid var(--border);
         transition: all 0.3s;
     }
 
     .vote-option.selected .vote-option-img {
-        border-color: var(--dark-maroon);
-        box-shadow: 0 0 0 2px var(--maroon);
+        border-color: var(--maroon);
+        box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.15);
     }
 
     .vote-option-img img {
@@ -377,518 +632,638 @@
         object-fit: cover;
     }
 
-    /* Selection Counter & Validation - NEW */
-    .selection-info {
-        margin: 1.5rem 0;
-        padding: 1.2rem;
-        background: #f8f9fa;
-        border-radius: 8px;
-        border-left: 4px solid var(--maroon);
+    .vote-option h3 {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+        line-height: 1.35;
     }
 
-    .selection-counter {
+    .vote-option p {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        line-height: 1.4;
+        margin: 0;
+    }
+
+    /* ============================================
+       SELECTION INFO
+    ============================================ */
+    .selection-info {
+        margin: 1.8rem 0 1rem;
+        padding: 1.4rem 1.6rem;
+        background: linear-gradient(135deg, var(--cream), var(--cream-dark));
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
         text-align: center;
-        margin-bottom: 0.5rem;
     }
 
     .selection-counter p {
-        margin: 0;
-        font-weight: 600;
-        font-size: 1.1rem;
+        margin: 0 0 0.5rem;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text-dark);
     }
 
     #selectedCount {
         color: var(--maroon);
-        font-weight: bold;
-        font-size: 1.3em;
+        font-weight: 800;
+        font-size: 1.5em;
+        display: inline-block;
+        min-width: 1.4em;
+        transition: transform 0.2s;
     }
 
-    /* Validation Message Styles - NEW */
+    #selectedCount.bump {
+        animation: bump 0.3s ease;
+    }
+
+    @keyframes bump {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.25); color: var(--gold); }
+    }
+
     #validationMessage {
-        text-align: center;
-        font-weight: 500;
-        min-height: 24px;
-        padding: 0.3rem 0;
+        font-weight: 600;
+        font-size: 0.88rem;
+        min-height: 22px;
         transition: all 0.3s ease;
     }
 
     #validationMessage.valid {
         color: var(--success);
-    }
-
-    #validationMessage.valid::before {
-        content: '✓ ';
-        font-weight: bold;
+        background: var(--success-bg);
+        padding: 8px 16px;
+        border-radius: 10px;
+        display: inline-block;
     }
 
     #validationMessage.invalid {
         color: var(--danger);
+        background: var(--danger-bg);
+        padding: 8px 16px;
+        border-radius: 10px;
+        display: inline-block;
     }
 
-    #validationMessage.invalid::before {
-        content: '⚠ ';
-        font-weight: bold;
-    }
-
-    /* Tombol Submit Styles - IMPROVED */
+    /* ============================================
+       SUBMIT BUTTON
+    ============================================ */
     #submitVote {
         width: 100%;
-        margin-top: 1rem;
-        font-size: 1.1rem;
-        padding: 15px 30px;
-        transition: all 0.3s ease;
-    }
-
-    #submitVote:not(:disabled) {
-        background: var(--gold);
-        cursor: pointer;
-    }
-
-    #submitVote:not(:disabled):hover {
-        background: #b8860b;
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        margin-top: 1.5rem;
+        font-size: 1rem;
+        padding: 16px 32px;
+        border-radius: 14px;
     }
 
     #submitVote:disabled {
-        background: #cccccc !important;
+        background: #e5e0d8 !important;
+        color: #a8a093 !important;
         cursor: not-allowed !important;
         transform: none !important;
         box-shadow: none !important;
-        opacity: 0.7;
+        opacity: 1;
     }
 
-    #submitVote:disabled:hover {
-        background: #cccccc !important;
-        transform: none !important;
-        box-shadow: none !important;
-    }
+    #submitVote:disabled::before { display: none; }
 
-    /* Admin Dashboard */
+    /* ============================================
+       ADMIN
+    ============================================ */
     .admin-section {
         display: none;
-        background: white;
-        border-radius: 10px;
-        padding: 2rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        margin-bottom: 3rem;
+        background: var(--white);
+        border-radius: var(--radius);
+        padding: 2.2rem;
+        box-shadow: var(--shadow-md);
+        margin-bottom: 4rem;
+        border: 1px solid var(--border);
     }
 
     .admin-controls {
         display: flex;
         justify-content: space-between;
+        gap: 1rem;
         margin-bottom: 2rem;
+        flex-wrap: wrap;
     }
 
     .candidates-list {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
         gap: 1.5rem;
     }
 
     .admin-candidate-card {
-        background: white;
-        border-radius: 10px;
+        background: var(--white);
+        border-radius: var(--radius-sm);
         overflow: hidden;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        border: 1px solid #eee;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border);
+        transition: all 0.3s;
     }
+
+    .admin-candidate-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-3px);
+    }
+
+    .admin-candidate-card .candidate-img {
+        height: 200px;
+        font-size: 3.5rem;
+    }
+
+    .admin-candidate-card .candidate-info { padding: 1.2rem; }
+    .admin-candidate-card .candidate-info h3 { font-size: 1.05rem; }
+    .admin-candidate-card .candidate-info p { font-size: 0.85rem; margin-bottom: 0.5rem; }
 
     .admin-candidate-actions {
-        padding: 1rem;
+        padding: 1rem 1.2rem;
         display: flex;
-        justify-content: space-between;
-        border-top: 1px solid #eee;
+        gap: 0.7rem;
+        border-top: 1px solid var(--border);
+        background: var(--cream);
     }
 
-    /* Modal Styles - IMPROVED */
+    .admin-candidate-actions .btn {
+        flex: 1;
+        padding: 9px 16px;
+        font-size: 0.85rem;
+    }
+
+    /* ============================================
+       MODAL
+    ============================================ */
     .modal {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 1000;
+        inset: 0;
+        background: rgba(20, 12, 8, 0.72);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 2000;
         justify-content: center;
         align-items: flex-start;
-        padding: 20px 0;
+        padding: 24px 16px;
         overflow-y: auto;
+        animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     .modal-content {
-        background: white;
-        width: 90%;
-        max-width: 500px;
-        border-radius: 10px;
+        background: var(--white);
+        width: 100%;
+        max-width: 520px;
+        border-radius: 22px;
         overflow: hidden;
-        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
-        margin: 20px auto;
-        max-height: 90vh;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        margin: auto;
+        max-height: calc(100vh - 48px);
         overflow-y: auto;
         position: relative;
+        animation: slideUp 0.4s cubic-bezier(0.34, 1.36, 0.64, 1);
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .modal-header {
-        background: var(--maroon);
+        background: linear-gradient(135deg, var(--dark-maroon), var(--maroon));
         color: white;
-        padding: 1.5rem;
+        padding: 1.8rem;
         text-align: center;
-        position: sticky;
-        top: 0;
-        z-index: 1;
+        position: relative;
     }
 
-    .modal-body {
-        padding: 2rem;
+    .modal-header h2 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
     }
 
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
+    .modal-body { padding: 2rem; }
+
+    .form-group { margin-bottom: 1.4rem; }
 
     .form-group label {
         display: block;
         margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: var(--maroon);
+        font-weight: 700;
+        color: var(--text-dark);
+        font-size: 0.88rem;
+        letter-spacing: 0.01em;
     }
 
     .form-group input, .form-group textarea {
         width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 1rem;
-        transition: border-color 0.3s;
+        padding: 13px 16px;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        font-size: 0.92rem;
+        font-family: inherit;
+        transition: all 0.25s ease;
+        background: var(--cream);
+        color: var(--text-dark);
     }
 
     .form-group input:focus, .form-group textarea:focus {
         outline: none;
         border-color: var(--maroon);
-        box-shadow: 0 0 0 2px rgba(128, 0, 0, 0.1);
+        background: var(--white);
+        box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.08);
+    }
+
+    .form-group input::placeholder, .form-group textarea::placeholder {
+        color: #b3a99c;
     }
 
     .form-group textarea {
         min-height: 100px;
         resize: vertical;
-    }
-
-    .modal-footer {
-        padding: 1rem 2rem;
-        background: #f9f9f9;
-        text-align: center;
-        border-top: 1px solid #eee;
+        line-height: 1.6;
     }
 
     .close {
         position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 1.5rem;
+        top: 16px;
+        right: 16px;
+        font-size: 1.4rem;
         cursor: pointer;
         color: white;
         z-index: 2;
-        background: rgba(0, 0, 0, 0.3);
-        width: 30px;
-        height: 30px;
+        background: rgba(255, 255, 255, 0.15);
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background 0.3s;
+        transition: all 0.3s;
+        backdrop-filter: blur(10px);
+        line-height: 1;
     }
 
     .close:hover {
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(255, 255, 255, 0.28);
+        transform: rotate(90deg) scale(1.1);
     }
 
-    /* CSS untuk foto */
     .photo-preview {
         max-width: 200px;
         max-height: 200px;
-        border-radius: 10px;
-        margin: 10px auto;
+        border-radius: 16px;
+        margin: 12px auto;
         display: block;
-        border: 2px solid var(--maroon);
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        border: 2px solid var(--gold);
+        box-shadow: 0 8px 24px rgba(212, 160, 23, 0.2);
+        object-fit: cover;
     }
 
-    /* Footer */
-    footer {
-        background: var(--dark-maroon);
-        color: white;
-        padding: 2rem 0;
+    /* ============================================
+       RESULTS
+    ============================================ */
+    #resultsContainer > p {
         text-align: center;
+        padding: 12px;
+        margin-bottom: 8px;
+        background: var(--cream);
+        border-radius: 10px;
+        font-size: 0.92rem;
+        color: var(--text-dark);
+        font-weight: 600;
+    }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+        background: linear-gradient(135deg, var(--dark-maroon), #3a0000);
+        color: var(--white);
+        padding: 3rem 0 2rem;
+        text-align: center;
+        border-radius: 28px 28px 0 0;
+        margin: 4rem 20px 0;
+        box-shadow: 0 -10px 40px rgba(90, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(240, 212, 131, 0.6), transparent);
     }
 
     .footer-content {
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 0.5rem;
     }
 
     .footer-logo {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        color: var(--gold);
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        margin-bottom: 0.8rem;
+        border: 1px solid rgba(240, 212, 131, 0.35);
+    }
+
+    .footer-logo img {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+    }
+
+    footer > .footer-content > p {
+        opacity: 0.8;
+        font-size: 0.9rem;
+        font-weight: 500;
     }
 
     .footer-links {
         display: flex;
         gap: 2rem;
-        margin: 1rem 0;
+        margin: 1.2rem 0;
     }
 
     .footer-links a {
-        color: white;
+        color: rgba(255, 255, 255, 0.75);
         text-decoration: none;
-        transition: color 0.3s;
+        font-size: 0.88rem;
+        font-weight: 500;
+        transition: all 0.3s;
+        position: relative;
     }
 
     .footer-links a:hover {
-        color: var(--light-gold);
-        text-decoration: underline;
+        color: var(--gold-light);
     }
 
-    /* Responsive */
+    .footer-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gold-light);
+        transition: width 0.3s;
+        border-radius: 2px;
+    }
+
+    .footer-links a:hover::after { width: 100%; }
+
+    footer > .footer-content > p:last-child {
+        margin-top: 1rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        font-size: 0.82rem;
+        opacity: 0.65;
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 992px) {
+        nav ul li a { padding: 8px 12px; font-size: 0.84rem; }
+    }
+
     @media (max-width: 768px) {
-        .header-content {
-            flex-wrap: wrap;
+        header {
+            top: 10px;
+            margin: 10px 12px 22px;
+            padding: 0.65rem 1rem;
+            border-radius: 18px;
         }
-        
-        .logo {
-            flex: 1;
-        }
-        
-        .mobile-menu-btn {
-            display: block;
-        }
-        
+
+        .header-content { flex-wrap: wrap; }
+        .logo { flex: 1; }
+        .logo-text h1 { font-size: 1.15rem; }
+        .logo-text span { font-size: 0.72rem; }
+        .logo-icon { width: 44px; height: 44px; }
+        .logo-icon img { width: 40px; height: 40px; }
+
+        .mobile-menu-btn { display: block; }
+
         nav {
             width: 100%;
             display: none;
-            margin-top: 1rem;
+            margin-top: 0.9rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        nav.active {
-            display: block;
-        }
-        
+
+        nav.active { display: block; }
+
         nav ul {
             flex-direction: column;
-            gap: 0;
+            gap: 4px;
+            align-items: stretch;
         }
-        
-        nav ul li {
-            margin: 0;
-        }
-        
+
         nav ul li a {
             padding: 12px 16px;
-            border-radius: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            justify-content: flex-start;
         }
-        
+
+        nav ul li a:hover { transform: none; }
+
         .user-info {
-            margin: 10px 0;
-            display: inline-flex;
+            margin: 8px 0 0;
+            display: none;
             width: 100%;
             justify-content: center;
         }
 
-        .hero h2 {
-            font-size: 2rem;
+        .user-info[style*="flex"] { display: flex !important; }
+
+        .hero {
+            margin: 0 12px 2.5rem;
+            padding: 3.5rem 1.5rem 3rem;
+            border-radius: 22px;
         }
 
-        .hero p {
-            font-size: 1rem;
-        }
+        .hero-badge { font-size: 0.75rem; padding: 6px 14px; }
+        .hero p { font-size: 0.95rem; }
 
-        .admin-controls {
-            flex-direction: column;
-            gap: 1rem;
-        }
+        .section-title { margin: 2.5rem 0 1.8rem; }
 
-        /* Vote options responsive */
-        .vote-option {
-            min-width: calc(50% - 0.5rem);
-        }
+        .candidates { gap: 1.25rem; }
+
+        .vote-section, .admin-section { padding: 1.5rem; }
 
         .vote-options {
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 0.8rem;
         }
 
-        /* Selection info responsive */
-        .selection-info {
-            padding: 1rem;
+        .vote-option { padding: 1.1rem 0.8rem; }
+        .vote-option-img { width: 64px; height: 64px; margin-bottom: 8px; }
+        .vote-option h3 { font-size: 0.85rem; }
+
+        .admin-controls {
+            flex-direction: column;
         }
 
-        /* Modal improvements untuk mobile */
-        .modal {
-            padding: 10px 0;
-            align-items: flex-start;
-        }
-        
-        .modal-content {
-            width: 95%;
-            max-height: 95vh;
-            margin: 10px auto;
-        }
-        
-        .modal-body {
-            padding: 1.5rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        .form-group input, .form-group textarea {
-            padding: 10px;
-            font-size: 16px;
-        }
-        
-        .photo-preview {
-            max-width: 150px;
-            max-height: 150px;
+        .admin-controls .btn { width: 100%; }
+
+        .modal-content { border-radius: 18px; }
+        .modal-header { padding: 1.4rem; }
+        .modal-body { padding: 1.5rem; }
+
+        footer {
+            margin: 3rem 12px 0;
+            padding: 2.5rem 0 1.5rem;
+            border-radius: 22px 22px 0 0;
         }
     }
 
     @media (max-width: 480px) {
-        .modal-body {
-            padding: 1rem;
-        }
-        
-        .modal-header {
-            padding: 1rem;
-        }
-        
-        .modal-header h2 {
-            font-size: 1.3rem;
-        }
-        
-        .photo-preview {
-            max-width: 120px;
-            max-height: 120px;
+        .container { padding: 0 16px; }
+        header { margin: 8px 10px 20px; padding: 0.6rem 0.85rem; }
+
+        .hero {
+            margin: 0 10px 2rem;
+            padding: 3rem 1.2rem 2.5rem;
+            border-radius: 18px;
         }
 
-        .vote-option {
-            min-width: 100%;
+        .hero h2 { font-size: 1.55rem; }
+
+        .candidates {
+            grid-template-columns: 1fr;
         }
 
-        .selection-counter p {
-            font-size: 1rem;
+        .vote-options {
+            grid-template-columns: repeat(2, 1fr);
         }
 
-        #validationMessage {
-            font-size: 0.9rem;
-        }
+        .vote-section, .admin-section { padding: 1.2rem; }
 
-        #submitVote {
-            padding: 12px 20px;
-            font-size: 1rem;
-        }
-    }
+        .selection-info { padding: 1.1rem; }
+        #validationMessage { font-size: 0.8rem; padding: 6px 12px; }
 
-    /* Animation untuk feedback */
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-    }
+        .modal-header h2 { font-size: 1.1rem; }
+        .photo-preview { max-width: 140px; max-height: 140px; }
 
-    .vote-option.selected {
-        animation: pulse 0.3s ease;
+        .footer-links { gap: 1.2rem; }
+        .footer-links a { font-size: 0.82rem; }
     }
 </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        
         <div class="container header-content">
             <div class="logo">
                 <div class="logo-icon">
-                    <img src="picture/imm.png" alt="Logo IMM" style="width:50px; height:50px; border-radius:50%;">
+                    <img src="picture/imm.png" alt="Logo IMM">
                 </div>
                 <div class="logo-text">
                     <h1>IMM JPMIPA</h1>
                     <span>Ikatan Mahasiswa Muhammadiyah</span>
                 </div>
             </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
                 <i class="fas fa-bars"></i>
             </button>
-            
+
             <nav id="mainNav">
                 <ul>
-                    <li><a href="#" id="homeLink" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="#" id="homeLink" class="active"><i class="fas fa-house"></i> Beranda</a></li>
                     <li><a href="#" id="candidatesLink"><i class="fas fa-users"></i> Kandidat</a></li>
-                    <li><a href="#" id="voteLink"><i class="fas fa-vote-yea"></i> Voting</a></li>
-                    <li><a href="#" id="adminLink" style="display:none;"><i class="fas fa-cog"></i> Admin</a></li>
-                    <li><a href="login.html" id="loginLink"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="#" id="voteLink"><i class="fas fa-check-to-slot"></i> Voting</a></li>
+                    <li><a href="#" id="adminLink" style="display:none;"><i class="fas fa-gear"></i> Admin</a></li>
+                    <li><a href="login.html" id="loginLink"><i class="fas fa-right-to-bracket"></i> Login</a></li>
                     <li class="user-info" id="userInfo">
                         <i class="fas fa-user"></i>
                         <span id="userName"></span>
                     </li>
-                    <li><a href="#" id="logoutLink" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a href="#" id="logoutLink" style="display:none;"><i class="fas fa-right-from-bracket"></i> Logout</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <h2>Sistem Pemilihan Formatur IMM JPMIPA 2025</h2>
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                Pemilihan 2026
+            </div>
+            <h2>Sistem Pemilihan Formatur<br>IMM JPMIPA 2026</h2>
             <p>Ikut berpartisipasi dalam menentukan masa depan organisasi dengan memilih calon Formatur IMM JPMIPA yang terbaik.</p>
-            <a href="#" class="btn" id="voteNowBtn">Voting Sekarang</a>
+            <a href="#" class="btn" id="voteNowBtn">
+                <i class="fas fa-check-to-slot"></i>
+                Voting Sekarang
+            </a>
         </div>
     </section>
 
-    <!-- Candidates Section -->
+    <!-- Candidates -->
     <section class="container">
-        <h2 class="section-title">Calon Kandidat Formatur IMM JPMIPA 2025</h2>
-        <div class="candidates" id="candidatesContainer">
-            <!-- Kandidat akan dimuat secara dinamis -->
-        </div>
+        <h2 class="section-title">Calon Kandidat Formatur 2026</h2>
+        <div class="candidates" id="candidatesContainer"></div>
     </section>
 
-    <!-- Vote Section -->
+    <!-- Vote -->
     <section class="container">
-        <h2 class="section-title">Pilih Calon Formatur IMM JPMIPA 2025</h2>
+        <h2 class="section-title">Pilih Calon Formatur 2026</h2>
         <div class="vote-section">
-            <p>Silakan pilih <strong>minimal 13 dan maksimal 13 calon</strong> Formatur IMM JPMIPA di bawah ini. Pastikan pilihan Anda sudah tepat sebelum mengirimkan suara.</p>
-            
-            <div class="vote-options" id="voteOptionsContainer">
-                <!-- Opsi voting akan dimuat secara dinamis -->
+            <p>Silakan pilih <strong>tepat 13 calon</strong> Formatur IMM JPMIPA di bawah ini. Pastikan pilihan Anda sudah tepat sebelum mengirimkan suara.</p>
+
+            <div class="vote-options" id="voteOptionsContainer"></div>
+
+            <div class="selection-info">
+                <div class="selection-counter">
+                    <p><strong>Pilihan Anda:</strong> <span id="selectedCount">0</span> / 13 kandidat terpilih</p>
+                </div>
+                <p id="validationMessage"></p>
             </div>
-            
-            <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
-                <p><strong>Pilihan Anda:</strong> <span id="selectedCount">0</span>/13 kandidat terpilih</p>
-                <p id="validationMessage" style="color: var(--maroon); font-size: 0.9rem; margin-top: 5px;"></p>
-            </div>
-            
-            <button class="btn" id="submitVote" style="width: 100%;" disabled>Kirim Suara Saya</button>
+
+            <button class="btn" id="submitVote" disabled>
+                <i class="fas fa-paper-plane"></i>
+                Kirim Suara Saya
+            </button>
         </div>
     </section>
 
-    <!-- Admin Dashboard -->
+    <!-- Admin -->
     <section class="container">
         <div class="admin-section" id="adminSection">
             <h2 class="section-title">Dashboard Admin</h2>
-            
             <div class="admin-controls">
-                <button class="btn" id="addCandidateBtn">Tambah Kandidat</button>
-                <button class="btn btn-secondary" id="viewResultsBtn">Lihat Hasil</button>
+                <button class="btn" id="addCandidateBtn">
+                    <i class="fas fa-plus"></i> Tambah Kandidat
+                </button>
+                <button class="btn btn-secondary" id="viewResultsBtn">
+                    <i class="fas fa-chart-simple"></i> Lihat Hasil
+                </button>
             </div>
-            
-            <div class="candidates-list" id="adminCandidatesList">
-                <!-- Daftar kandidat untuk admin akan dimuat di sini -->
-            </div>
+            <div class="candidates-list" id="adminCandidatesList"></div>
         </div>
     </section>
 
@@ -909,11 +1284,11 @@
                     <input type="text" id="candidateProgram" placeholder="Contoh: Teknik Informatika - Semester 7">
                 </div>
                 <div class="form-group">
-                    <label for="candidatePhoto">Foto Kandidat</label>
+                    <label>Foto Kandidat</label>
                     <button type="button" class="btn btn-secondary" id="uploadPhotoBtn" style="width: 100%; margin-bottom: 10px;">
-                        <i class="fas fa-cloud-upload-alt"></i> Upload Foto
+                        <i class="fas fa-cloud-arrow-up"></i> Upload Foto
                     </button>
-                    <div id="photoPreview" style="margin-top: 10px; text-align: center;"></div>
+                    <div id="photoPreview" style="text-align: center;"></div>
                 </div>
                 <div class="form-group">
                     <label for="candidateVision">Visi</label>
@@ -921,9 +1296,11 @@
                 </div>
                 <div class="form-group">
                     <label for="candidateMission">Misi (pisahkan dengan baris baru)</label>
-                    <textarea id="candidateMission" placeholder="Masukkan misi kandidat, setiap misi dipisahkan dengan baris baru"></textarea>
+                    <textarea id="candidateMission" placeholder="Masukkan misi kandidat, satu baris per misi"></textarea>
                 </div>
-                <button class="btn" id="saveCandidateBtn" style="width: 100%;">Simpan Kandidat</button>
+                <button class="btn" id="saveCandidateBtn" style="width: 100%;">
+                    <i class="fas fa-floppy-disk"></i> Simpan Kandidat
+                </button>
             </div>
         </div>
     </div>
@@ -936,9 +1313,7 @@
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
-                <div id="resultsContainer">
-                    <!-- Hasil voting akan ditampilkan di sini -->
-                </div>
+                <div id="resultsContainer"></div>
             </div>
         </div>
     </div>
@@ -947,15 +1322,15 @@
     <footer>
         <div class="container footer-content">
             <div class="footer-logo">
-                <img src="picture/imm.png" alt="Logo IMM" style="width:50px; height:50px; border-radius:50%;">
+                <img src="picture/imm.png" alt="Logo IMM">
             </div>
-            <p>Pemilihan Formatur IMM JPMIPA 2025</p>
+            <p>Pemilihan Formatur IMM JPMIPA 2026</p>
             <div class="footer-links">
                 <a href="#">Tentang</a>
                 <a href="#">Kebijakan Privasi</a>
                 <a href="#">Kontak</a>
             </div>
-            <p>&copy; 2025 IMM JPMIPA. Semua hak dilindungi.</p>
+            <p>&copy; 2026 IMM JPMIPA. Semua hak dilindungi.</p>
         </div>
     </footer>
 
@@ -971,18 +1346,15 @@
       measurementId: "G-0YBW40V890"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Cloudinary Configuration
     const cloudinaryConfig = {
         cloudName: 'dgysqnzx2',
         uploadPreset: 'imm_preset'
     };
 
-    // DOM Elements
     const submitVoteBtn = document.getElementById('submitVote');
     const voteNowBtn = document.getElementById('voteNowBtn');
     const adminSection = document.getElementById('adminSection');
@@ -999,126 +1371,91 @@
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mainNav = document.getElementById('mainNav');
     const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
-    const photoPreview = document.getElementById('photoPreview');
-    
+
     const candidatesContainer = document.getElementById('candidatesContainer');
     const voteOptionsContainer = document.getElementById('voteOptionsContainer');
     const adminCandidatesList = document.getElementById('adminCandidatesList');
     const resultsContainer = document.getElementById('resultsContainer');
 
-    // State variables - MODIFIED untuk minimal dan maksimal 13
-    let selectedCandidates = []; // Array untuk menyimpan multiple selections
+    let selectedCandidates = [];
     let isAdmin = false;
     let editingCandidateId = null;
     let currentPhotoUrl = '';
     let uploadWidget = null;
-    const REQUIRED_SELECTIONS = 13; // Harus memilih tepat 13 kandidat
+    const REQUIRED_SELECTIONS = 13;
 
-    // Mobile menu toggle
     mobileMenuBtn.addEventListener('click', () => {
         mainNav.classList.toggle('active');
     });
 
-    // Update active nav link
     function updateActiveNavLink(activeLinkId) {
-        document.querySelectorAll('nav a').forEach(link => {
-            link.classList.remove('active');
-        });
+        document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
         document.getElementById(activeLinkId).classList.add('active');
     }
 
-    // Check if user is already logged in
     function checkAuthState() {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // User is signed in
                 getUserData(user.uid).then(userData => {
                     if (userData) {
                         updateUIForLoggedInUser(userData);
-                        // Set isAdmin berdasarkan data user
                         isAdmin = userData.isAdmin || false;
-                        
-                        // Jika admin, load candidates untuk admin juga
-                        if (isAdmin) {
-                            loadAdminCandidates();
-                        }
+                        if (isAdmin) loadAdminCandidates();
                     }
                 });
             } else {
-                // User is signed out
-                console.log('User is signed out');
-                // Reset UI
                 loginLink.style.display = 'block';
                 userInfo.style.display = 'none';
                 logoutLink.style.display = 'none';
                 adminLink.style.display = 'none';
                 adminSection.style.display = 'none';
                 isAdmin = false;
-                // Reset pilihan voting
                 resetVoteSelection();
             }
         });
-        
+
         loadCandidates();
-        
-        // Initialize counter dan tombol submit
         updateSelectedCounter();
         updateSubmitButton();
         updateVoteOptionsState();
     }
 
-    // Get user data from Firestore
     function getUserData(uid) {
         return db.collection('users').doc(uid).get()
-            .then((doc) => {
-                if (doc.exists) {
-                    return doc.data();
-                } else {
-                    console.log("No such document!");
-                    return null;
-                }
-            })
+            .then((doc) => doc.exists ? doc.data() : null)
             .catch((error) => {
                 console.error("Error getting user data:", error);
                 return null;
             });
     }
 
-    // Update UI for logged in user
     function updateUIForLoggedInUser(user) {
         loginLink.style.display = 'none';
         userInfo.style.display = 'flex';
         userName.textContent = user.name;
         logoutLink.style.display = 'block';
-        
-        // Show admin link if user is admin
         if (user.isAdmin) {
             adminLink.style.display = 'block';
             isAdmin = true;
         }
     }
 
-    // Load candidates from Firestore untuk public view
     function loadCandidates() {
         db.collection('candidates').orderBy('createdAt', 'asc').get()
             .then((querySnapshot) => {
                 candidatesContainer.innerHTML = '';
                 voteOptionsContainer.innerHTML = '';
-                
+
                 if (querySnapshot.empty) {
-                    candidatesContainer.innerHTML = '<p>Belum ada kandidat yang terdaftar.</p>';
-                    voteOptionsContainer.innerHTML = '<p>Belum ada kandidat yang terdaftar.</p>';
+                    candidatesContainer.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:2rem;">Belum ada kandidat yang terdaftar.</p>';
+                    voteOptionsContainer.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:1.5rem;">Belum ada kandidat yang terdaftar.</p>';
                     return;
                 }
-                
+
                 querySnapshot.forEach((doc) => {
                     const candidate = doc.data();
                     candidate.id = doc.id;
-                    
-                    // Render candidate cards for public view
                     renderCandidateCard(candidate);
-                    
-                    // Render vote options
                     renderVoteOption(candidate);
                 });
             })
@@ -1128,32 +1465,25 @@
             });
     }
 
-    // Load candidates untuk admin view
     function loadAdminCandidates() {
         db.collection('candidates').orderBy('createdAt', 'asc').get()
             .then((querySnapshot) => {
                 adminCandidatesList.innerHTML = '';
-                
                 if (querySnapshot.empty) {
-                    adminCandidatesList.innerHTML = '<p>Belum ada kandidat yang terdaftar.</p>';
+                    adminCandidatesList.innerHTML = '<p style="color:var(--text-light);padding:2rem;text-align:center;">Belum ada kandidat yang terdaftar.</p>';
                     return;
                 }
-                
                 querySnapshot.forEach((doc) => {
                     const candidate = doc.data();
                     candidate.id = doc.id;
-                    
-                    // Render admin candidate cards
                     renderAdminCandidateCard(candidate);
                 });
             })
             .catch((error) => {
                 console.error("Error loading admin candidates: ", error);
-                adminCandidatesList.innerHTML = '<p>Error loading candidates.</p>';
             });
     }
 
-    // Fungsi untuk inisialisasi Cloudinary upload widget
     function initializeCloudinaryWidget() {
         if (!uploadWidget) {
             uploadWidget = cloudinary.createUploadWidget({
@@ -1161,7 +1491,7 @@
                 uploadPreset: cloudinaryConfig.uploadPreset,
                 sources: ['local', 'camera'],
                 multiple: false,
-                maxFileSize: 5000000, // 5MB
+                maxFileSize: 5000000,
                 clientAllowedFormats: ['jpg', 'jpeg', 'png', 'gif'],
                 maxImageWidth: 800,
                 maxImageHeight: 800,
@@ -1187,11 +1517,9 @@
                 }
             }, (error, result) => {
                 if (!error && result && result.event === "success") {
-                    console.log('Upload berhasil: ', result.info);
                     currentPhotoUrl = result.info.secure_url;
                     showPhotoPreview(currentPhotoUrl);
                 } else if (error) {
-                    console.error('Upload error: ', error);
                     alert('Terjadi kesalahan saat upload foto: ' + error.message);
                 }
             });
@@ -1199,38 +1527,31 @@
         return uploadWidget;
     }
 
-    // Fungsi untuk menampilkan preview foto
     function showPhotoPreview(url) {
         const previewContainer = document.getElementById('photoPreview');
         previewContainer.innerHTML = `
             <img src="${url}" alt="Preview Foto" class="photo-preview">
-            <p style="color: green; margin-top: 5px; font-size: 0.9rem;">
-                <i class="fas fa-check-circle"></i> Foto berhasil diupload
+            <p style="color: var(--success); margin-top: 8px; font-size: 0.82rem; font-weight:600;">
+                <i class="fas fa-circle-check"></i> Foto berhasil diupload
             </p>
-            <button type="button" class="btn btn-danger" id="removePhotoBtn" style="margin-top: 5px; padding: 5px 10px; font-size: 0.8rem;">
+            <button type="button" class="btn btn-danger" id="removePhotoBtn" style="margin-top: 6px; padding: 6px 14px; font-size: 0.78rem;">
                 <i class="fas fa-trash"></i> Hapus Foto
             </button>
         `;
-        
-        // Event listener untuk hapus foto
         document.getElementById('removePhotoBtn').addEventListener('click', function() {
             currentPhotoUrl = '';
             previewContainer.innerHTML = '';
         });
     }
 
-    // Render candidate card for public view
     function renderCandidateCard(candidate) {
-        const missionItems = candidate.mission.split('\n').map(item => 
-            `<li>${item}</li>`
-        ).join('');
-        
+        const missionItems = candidate.mission.split('\n').filter(m => m.trim()).map(item => `<li>${item}</li>`).join('');
         const candidateCard = document.createElement('div');
         candidateCard.className = 'candidate-card';
         candidateCard.innerHTML = `
             <div class="candidate-img">
-                ${candidate.photoUrl ? 
-                    `<img src="${candidate.photoUrl}" alt="${candidate.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'">` : 
+                ${candidate.photoUrl ?
+                    `<img src="${candidate.photoUrl}" alt="${candidate.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'">` :
                     `<i class="fas fa-user"></i>`
                 }
             </div>
@@ -1245,70 +1566,63 @@
         candidatesContainer.appendChild(candidateCard);
     }
 
-    // Render vote option - MODIFIED untuk tepat 13 pilihan
     function renderVoteOption(candidate) {
         const voteOption = document.createElement('div');
         voteOption.className = 'vote-option';
         voteOption.setAttribute('data-candidate', candidate.id);
         voteOption.innerHTML = `
             <div class="vote-option-img">
-                ${candidate.photoUrl ? 
-                    `<img src="${candidate.photoUrl}" alt="${candidate.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-user\\' style=\\'font-size: 2rem; color: #800000;\\'></i>'">` : 
-                    `<i class="fas fa-user" style="font-size: 2rem; color: #800000;"></i>`
+                ${candidate.photoUrl ?
+                    `<img src="${candidate.photoUrl}" alt="${candidate.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-user\\' style=\\'font-size: 2rem; color: #800000;\\'></i>'">` :
+                    `<i class="fas fa-user" style="font-size: 2rem; color: var(--maroon);"></i>`
                 }
             </div>
             <h3>${candidate.name}</h3>
             <p>${candidate.program}</p>
         `;
-        
+
         voteOption.addEventListener('click', () => {
             const candidateId = candidate.id;
-            
-            // Cek apakah kandidat sudah dipilih
             const isSelected = selectedCandidates.includes(candidateId);
-            
+
             if (isSelected) {
-                // Hapus dari selection
                 selectedCandidates = selectedCandidates.filter(id => id !== candidateId);
                 voteOption.classList.remove('selected');
             } else {
-                // Cek apakah sudah mencapai batas maksimal
                 if (selectedCandidates.length >= REQUIRED_SELECTIONS) {
                     alert(`Anda harus memilih tepat ${REQUIRED_SELECTIONS} kandidat. Silakan batalkan pilihan salah satu kandidat terlebih dahulu.`);
                     return;
                 }
-                
-                // Tambahkan ke selection
                 selectedCandidates.push(candidateId);
                 voteOption.classList.add('selected');
             }
-            
-            // Update semua state
+
             updateSelectedCounter();
             updateSubmitButton();
             updateVoteOptionsState();
         });
-        
+
         voteOptionsContainer.appendChild(voteOption);
     }
 
-    // Fungsi untuk update counter pilihan
     function updateSelectedCounter() {
         const selectedCountElement = document.getElementById('selectedCount');
         const validationMessage = document.getElementById('validationMessage');
-        
+
         if (selectedCountElement) {
             selectedCountElement.textContent = selectedCandidates.length;
+            selectedCountElement.classList.remove('bump');
+            void selectedCountElement.offsetWidth;
+            selectedCountElement.classList.add('bump');
         }
-        
-        // Update validation message
+
         if (validationMessage) {
             if (selectedCandidates.length < REQUIRED_SELECTIONS) {
                 const remaining = REQUIRED_SELECTIONS - selectedCandidates.length;
                 validationMessage.textContent = `Pilih ${remaining} kandidat lagi untuk mencapai ${REQUIRED_SELECTIONS} kandidat`;
                 validationMessage.className = 'invalid';
             } else if (selectedCandidates.length === REQUIRED_SELECTIONS) {
-                validationMessage.textContent = '✓ Anda telah memilih tepat 13 kandidat. Silakan kirim suara.';
+                validationMessage.textContent = 'Anda telah memilih tepat 13 kandidat. Silakan kirim suara.';
                 validationMessage.className = 'valid';
             } else {
                 validationMessage.textContent = `Anda harus memilih tepat ${REQUIRED_SELECTIONS} kandidat`;
@@ -1317,33 +1631,18 @@
         }
     }
 
-    // Fungsi untuk update status tombol submit
     function updateSubmitButton() {
         const submitBtn = document.getElementById('submitVote');
-        const isValid = selectedCandidates.length === REQUIRED_SELECTIONS;
-        
-        if (isValid) {
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '1';
-            submitBtn.style.cursor = 'pointer';
-            submitBtn.style.background = 'var(--gold)';
-        } else {
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.6';
-            submitBtn.style.cursor = 'not-allowed';
-            submitBtn.style.background = '#cccccc';
-        }
+        submitBtn.disabled = selectedCandidates.length !== REQUIRED_SELECTIONS;
     }
 
-    // Fungsi untuk update state vote options
     function updateVoteOptionsState() {
         const voteOptions = document.querySelectorAll('.vote-option');
         const hasReachedMax = selectedCandidates.length >= REQUIRED_SELECTIONS;
-        
+
         voteOptions.forEach(option => {
             const candidateId = option.getAttribute('data-candidate');
             const isSelected = selectedCandidates.includes(candidateId);
-            
             if (hasReachedMax && !isSelected) {
                 option.classList.add('max-reached');
             } else {
@@ -1352,14 +1651,13 @@
         });
     }
 
-    // Render admin candidate card
     function renderAdminCandidateCard(candidate) {
         const adminCard = document.createElement('div');
         adminCard.className = 'admin-candidate-card';
         adminCard.innerHTML = `
             <div class="candidate-img">
-                ${candidate.photoUrl ? 
-                    `<img src="${candidate.photoUrl}" alt="${candidate.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'">` : 
+                ${candidate.photoUrl ?
+                    `<img src="${candidate.photoUrl}" alt="${candidate.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-user\\'></i>'">` :
                     `<i class="fas fa-user"></i>`
                 }
             </div>
@@ -1369,55 +1667,43 @@
                 <p><strong>Visi:</strong> ${candidate.vision}</p>
             </div>
             <div class="admin-candidate-actions">
-                <button class="btn btn-secondary edit-candidate" data-id="${candidate.id}">Edit</button>
-                <button class="btn btn-danger delete-candidate" data-id="${candidate.id}">Hapus</button>
+                <button class="btn btn-secondary edit-candidate" data-id="${candidate.id}">
+                    <i class="fas fa-pen"></i> Edit
+                </button>
+                <button class="btn btn-danger delete-candidate" data-id="${candidate.id}">
+                    <i class="fas fa-trash"></i> Hapus
+                </button>
             </div>
         `;
-        
         adminCandidatesList.appendChild(adminCard);
-        
-        // Add event listeners for edit and delete buttons
-        adminCard.querySelector('.edit-candidate').addEventListener('click', () => {
-            editCandidate(candidate);
-        });
-        
-        adminCard.querySelector('.delete-candidate').addEventListener('click', () => {
-            deleteCandidate(candidate.id);
-        });
+
+        adminCard.querySelector('.edit-candidate').addEventListener('click', () => editCandidate(candidate));
+        adminCard.querySelector('.delete-candidate').addEventListener('click', () => deleteCandidate(candidate.id));
     }
 
-    // Edit candidate
     function editCandidate(candidate) {
         editingCandidateId = candidate.id;
         currentPhotoUrl = candidate.photoUrl || '';
-        
         document.getElementById('candidateModalTitle').textContent = 'Edit Kandidat';
         document.getElementById('candidateName').value = candidate.name;
         document.getElementById('candidateProgram').value = candidate.program;
         document.getElementById('candidateVision').value = candidate.vision;
         document.getElementById('candidateMission').value = candidate.mission;
-        
-        // Tampilkan preview foto jika ada
         if (candidate.photoUrl) {
             showPhotoPreview(candidate.photoUrl);
         } else {
             document.getElementById('photoPreview').innerHTML = '';
         }
-        
         candidateModal.style.display = 'flex';
     }
 
-    // Delete candidate
     function deleteCandidate(candidateId) {
         if (confirm('Apakah Anda yakin ingin menghapus kandidat ini?')) {
             db.collection('candidates').doc(candidateId).delete()
                 .then(() => {
                     alert('Kandidat berhasil dihapus');
-                    // Reload both public and admin views
                     loadCandidates();
-                    if (isAdmin) {
-                        loadAdminCandidates();
-                    }
+                    if (isAdmin) loadAdminCandidates();
                 })
                 .catch((error) => {
                     console.error("Error deleting candidate: ", error);
@@ -1426,70 +1712,66 @@
         }
     }
 
-    // Show voting results - MODIFIED untuk multiple votes
     function showResults() {
         resultsContainer.innerHTML = '<p>Memuat hasil...</p>';
         resultsModal.style.display = 'flex';
-        
-        // Get all votes
+
         db.collection('votes').get()
             .then((querySnapshot) => {
                 const votes = {};
                 let totalVotes = 0;
-                
-                // Initialize vote counts
-                db.collection('candidates').get()
-                    .then((candidatesSnapshot) => {
-                        candidatesSnapshot.forEach((doc) => {
-                            votes[doc.id] = {
-                                name: doc.data().name,
-                                count: 0
-                            };
-                        });
-                        
-                        // Count votes (setiap vote dihitung satu)
-                        querySnapshot.forEach((doc) => {
-                            const vote = doc.data();
-                            if (votes[vote.candidate]) {
-                                votes[vote.candidate].count++;
-                                totalVotes++;
-                            }
-                        });
-                        
-                        // Calculate unique voters
-                        const uniqueVoters = new Set();
-                        querySnapshot.forEach(doc => {
-                            uniqueVoters.add(doc.data().userId);
-                        });
-                        
-                        // Display results
-                        let resultsHTML = `
-                            <p><strong>Total Pemilih: ${uniqueVoters.size}</strong></p>
-                            <p><strong>Total Suara: ${totalVotes}</strong></p>
-                        `;
-                        
-                        // Urutkan berdasarkan jumlah suara terbanyak
-                        const sortedCandidates = Object.keys(votes)
-                            .map(id => ({ id, ...votes[id] }))
-                            .sort((a, b) => b.count - a.count);
-                        
-                        sortedCandidates.forEach(candidate => {
-                            const percentage = totalVotes > 0 ? 
-                                ((candidate.count / totalVotes) * 100).toFixed(2) : 0;
-                            
-                            resultsHTML += `
-                                <div style="margin-bottom: 1rem; padding: 1rem; background: #f9f9f9; border-radius: 5px;">
-                                    <h3>${candidate.name}</h3>
-                                    <p>Suara: ${candidate.count} (${percentage}%)</p>
-                                    <div style="background: #e0e0e0; height: 20px; border-radius: 10px; margin-top: 5px;">
-                                        <div style="background: var(--maroon); height: 100%; width: ${percentage}%; border-radius: 10px;"></div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        
-                        resultsContainer.innerHTML = resultsHTML;
+
+                db.collection('candidates').get().then((candidatesSnapshot) => {
+                    candidatesSnapshot.forEach((doc) => {
+                        votes[doc.id] = { name: doc.data().name, count: 0 };
                     });
+
+                    querySnapshot.forEach((doc) => {
+                        const vote = doc.data();
+                        if (votes[vote.candidate]) {
+                            votes[vote.candidate].count++;
+                            totalVotes++;
+                        }
+                    });
+
+                    const uniqueVoters = new Set();
+                    querySnapshot.forEach(doc => uniqueVoters.add(doc.data().userId));
+
+                    let resultsHTML = `
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem;">
+                            <div style="padding:12px;background:var(--cream);border-radius:12px;text-align:center;">
+                                <div style="font-size:0.78rem;color:var(--text-light);font-weight:600;">Total Pemilih</div>
+                                <div style="font-size:1.5rem;font-weight:800;color:var(--maroon);">${uniqueVoters.size}</div>
+                            </div>
+                            <div style="padding:12px;background:var(--cream);border-radius:12px;text-align:center;">
+                                <div style="font-size:0.78rem;color:var(--text-light);font-weight:600;">Total Suara</div>
+                                <div style="font-size:1.5rem;font-weight:800;color:var(--maroon);">${totalVotes}</div>
+                            </div>
+                        </div>
+                    `;
+
+                    const sortedCandidates = Object.keys(votes)
+                        .map(id => ({ id, ...votes[id] }))
+                        .sort((a, b) => b.count - a.count);
+
+                    sortedCandidates.forEach((candidate, idx) => {
+                        const percentage = totalVotes > 0 ? ((candidate.count / totalVotes) * 100).toFixed(1) : 0;
+                        const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
+                        resultsHTML += `
+                            <div style="margin-bottom:0.8rem;padding:12px 14px;background:var(--cream);border-radius:12px;border:1px solid var(--border);">
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                                    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-dark);margin:0;">${medal} ${candidate.name}</h3>
+                                    <span style="font-size:0.8rem;font-weight:700;color:var(--maroon);">${candidate.count} (${percentage}%)</span>
+                                </div>
+                                <div style="background:#e5e0d8;height:8px;border-radius:6px;overflow:hidden;">
+                                    <div style="background:linear-gradient(90deg,var(--gold),var(--maroon));height:100%;width:${percentage}%;border-radius:6px;transition:width 0.6s ease;"></div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    resultsContainer.innerHTML = resultsHTML;
+                });
             })
             .catch((error) => {
                 console.error("Error loading results: ", error);
@@ -1497,9 +1779,7 @@
             });
     }
 
-    // Event Listeners
-    const closeModal = document.querySelectorAll('.close');
-    closeModal.forEach(closeBtn => {
+    document.querySelectorAll('.close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             candidateModal.style.display = 'none';
             resultsModal.style.display = 'none';
@@ -1516,24 +1796,19 @@
             currentPhotoUrl = '';
             document.getElementById('photoPreview').innerHTML = '';
         }
-        if (e.target === resultsModal) {
-            resultsModal.style.display = 'none';
-        }
+        if (e.target === resultsModal) resultsModal.style.display = 'none';
     });
 
-    // Event listener untuk upload photo button
-    document.getElementById('uploadPhotoBtn').addEventListener('click', function() {
+    uploadPhotoBtn.addEventListener('click', () => {
         const widget = initializeCloudinaryWidget();
         widget.open();
     });
 
     addCandidateBtn.addEventListener('click', () => {
-        // Check if user is admin
         if (!isAdmin) {
             alert('Hanya admin yang dapat menambah kandidat!');
             return;
         }
-        
         editingCandidateId = null;
         currentPhotoUrl = '';
         document.getElementById('candidateModalTitle').textContent = 'Tambah Kandidat';
@@ -1545,96 +1820,34 @@
         candidateModal.style.display = 'flex';
     });
 
-    viewResultsBtn.addEventListener('click', () => {
-        showResults();
-    });
+    viewResultsBtn.addEventListener('click', showResults);
 
     saveCandidateBtn.addEventListener('click', () => {
-        // Check if user is admin
         if (!isAdmin) {
             alert('Hanya admin yang dapat menambah atau mengedit kandidat!');
             return;
         }
-        
+
         const name = document.getElementById('candidateName').value;
         const program = document.getElementById('candidateProgram').value;
         const vision = document.getElementById('candidateVision').value;
         const mission = document.getElementById('candidateMission').value;
-        
+
         if (!name || !program || !vision || !mission) {
             alert('Silakan isi semua data kandidat!');
             return;
         }
-        
+
         const candidateData = {
-            name,
-            program,
-            vision,
-            mission,
+            name, program, vision, mission,
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         };
-        
-        // Tambahkan photoUrl jika ada
-        if (currentPhotoUrl) {
-            candidateData.photoUrl = currentPhotoUrl;
-        }
-        
-        if (editingCandidateId) {
-            // Update existing candidate - pertahankan foto lama jika tidak ada foto baru
-            if (!currentPhotoUrl) {
-                // Ambil data kandidat yang ada untuk mempertahankan photoUrl
-                db.collection('candidates').doc(editingCandidateId).get()
-                    .then((doc) => {
-                        if (doc.exists) {
-                            const existingData = doc.data();
-                            candidateData.photoUrl = existingData.photoUrl;
-                        }
-                        // Tambahkan createdAt untuk data yang sudah ada
-                        candidateData.createdAt = existingData.createdAt;
-                        return db.collection('candidates').doc(editingCandidateId).update(candidateData);
-                    })
-                    .then(() => {
-                        handleSaveSuccess();
-                    })
-                    .catch((error) => {
-                        console.error("Error updating candidate: ", error);
-                        alert('Terjadi kesalahan saat memperbarui kandidat');
-                    });
-            } else {
-                // Jika ada foto baru, update termasuk photoUrl
-                db.collection('candidates').doc(editingCandidateId).get()
-                    .then((doc) => {
-                        if (doc.exists) {
-                            const existingData = doc.data();
-                            candidateData.createdAt = existingData.createdAt;
-                        }
-                        return db.collection('candidates').doc(editingCandidateId).update(candidateData);
-                    })
-                    .then(() => {
-                        handleSaveSuccess();
-                    })
-                    .catch((error) => {
-                        console.error("Error updating candidate: ", error);
-                        alert('Terjadi kesalahan saat memperbarui kandidat');
-                    });
-            }
-        } else {
-            // Add new candidate
-            candidateData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-            db.collection('candidates').add(candidateData)
-                .then(() => {
-                    handleSaveSuccess();
-                })
-                .catch((error) => {
-                    console.error("Error adding candidate: ", error);
-                    alert('Terjadi kesalahan saat menambahkan kandidat');
-                });
-        }
-        
-        function handleSaveSuccess() {
+
+        if (currentPhotoUrl) candidateData.photoUrl = currentPhotoUrl;
+
+        const handleSaveSuccess = () => {
             alert(editingCandidateId ? 'Kandidat berhasil diperbarui' : 'Kandidat berhasil ditambahkan');
             candidateModal.style.display = 'none';
-            // Reset form
             document.getElementById('candidateName').value = '';
             document.getElementById('candidateProgram').value = '';
             document.getElementById('candidateVision').value = '';
@@ -1642,44 +1855,57 @@
             document.getElementById('photoPreview').innerHTML = '';
             currentPhotoUrl = '';
             editingCandidateId = null;
-            // Reload both views
             loadCandidates();
-            if (isAdmin) {
-                loadAdminCandidates();
-            }
+            if (isAdmin) loadAdminCandidates();
+        };
+
+        if (editingCandidateId) {
+            db.collection('candidates').doc(editingCandidateId).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const existingData = doc.data();
+                        if (!currentPhotoUrl) candidateData.photoUrl = existingData.photoUrl;
+                        candidateData.createdAt = existingData.createdAt;
+                    }
+                    return db.collection('candidates').doc(editingCandidateId).update(candidateData);
+                })
+                .then(handleSaveSuccess)
+                .catch((error) => {
+                    console.error("Error updating candidate: ", error);
+                    alert('Terjadi kesalahan saat memperbarui kandidat');
+                });
+        } else {
+            candidateData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            db.collection('candidates').add(candidateData)
+                .then(handleSaveSuccess)
+                .catch((error) => {
+                    console.error("Error adding candidate: ", error);
+                    alert('Terjadi kesalahan saat menambahkan kandidat');
+                });
         }
     });
 
-    // Event listener untuk submit vote - MODIFIED untuk tepat 13 pilihan
     submitVoteBtn.addEventListener('click', () => {
-        // Validasi final sebelum submit
         if (selectedCandidates.length !== REQUIRED_SELECTIONS) {
             alert(`Anda harus memilih tepat ${REQUIRED_SELECTIONS} kandidat! Saat ini Anda memilih ${selectedCandidates.length} kandidat.`);
             return;
         }
-        
+
         const user = auth.currentUser;
         if (!user) {
             alert('Anda harus login terlebih dahulu untuk melakukan voting!');
             window.location.href = 'login.html';
             return;
         }
-        
-        // Konfirmasi sebelum submit
-        const confirmation = confirm(`Anda akan mengirimkan suara untuk ${selectedCandidates.length} kandidat. Apakah Anda yakin dengan pilihan Anda?`);
-        if (!confirmation) {
-            return;
-        }
-        
-        // Check if user has already voted
+
+        if (!confirm(`Anda akan mengirimkan suara untuk ${selectedCandidates.length} kandidat. Apakah Anda yakin dengan pilihan Anda?`)) return;
+
         db.collection('votes').where('userId', '==', user.uid).get()
             .then((querySnapshot) => {
                 if (!querySnapshot.empty) {
                     alert('Anda sudah melakukan voting sebelumnya!');
-                    return;
+                    return null;
                 }
-                
-                // Save multiple votes to Firestore
                 const votePromises = selectedCandidates.map(candidateId => {
                     return db.collection('votes').add({
                         candidate: candidateId,
@@ -1687,13 +1913,13 @@
                         timestamp: firebase.firestore.FieldValue.serverTimestamp()
                     });
                 });
-                
                 return Promise.all(votePromises);
             })
-            .then(() => {
-                alert(`Terima kasih! ${selectedCandidates.length} suara Anda telah tercatat.`);
-                // Reset selection
-                resetVoteSelection();
+            .then((result) => {
+                if (result) {
+                    alert(`Terima kasih! ${selectedCandidates.length} suara Anda telah tercatat.`);
+                    resetVoteSelection();
+                }
             })
             .catch(error => {
                 console.error('Error saving votes: ', error);
@@ -1701,16 +1927,11 @@
             });
     });
 
-    // Fungsi untuk reset pilihan voting - MODIFIED
     function resetVoteSelection() {
-        // Reset UI
         document.querySelectorAll('.vote-option').forEach(opt => {
-            opt.classList.remove('selected');
-            opt.classList.remove('max-reached');
+            opt.classList.remove('selected', 'max-reached');
         });
         selectedCandidates = [];
-        
-        // Update semua state
         updateSelectedCounter();
         updateSubmitButton();
         updateVoteOptionsState();
@@ -1721,67 +1942,44 @@
         document.getElementById('voteLink').click();
     });
 
-    // Event listener untuk admin link
     adminLink.addEventListener('click', (e) => {
         e.preventDefault();
-        // Sembunyikan semua section
         document.querySelector('.hero').style.display = 'none';
         document.querySelector('.candidates').style.display = 'none';
         document.querySelector('.vote-section').style.display = 'none';
-        
-        // Tampilkan admin section
         adminSection.style.display = 'block';
-        
-        // Update active nav link
         updateActiveNavLink('adminLink');
-        
-        // Load candidates untuk admin jika belum diload
-        if (isAdmin) {
-            loadAdminCandidates();
-        }
-        
+        if (isAdmin) loadAdminCandidates();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     logoutLink.addEventListener('click', (e) => {
         e.preventDefault();
         auth.signOut().then(() => {
-            // Sign-out successful.
             loginLink.style.display = 'block';
             userInfo.style.display = 'none';
             logoutLink.style.display = 'none';
             adminLink.style.display = 'none';
             adminSection.style.display = 'none';
             isAdmin = false;
-            
-            // Show hidden sections
             document.querySelector('.hero').style.display = 'block';
             document.querySelector('.candidates').style.display = 'grid';
             document.querySelector('.vote-section').style.display = 'block';
-            
-            // Update active nav link
             updateActiveNavLink('homeLink');
-            
-            // Reset pilihan voting
             resetVoteSelection();
-            
             alert('Logout berhasil!');
         }).catch((error) => {
             console.error('Error signing out:', error);
         });
     });
 
-    // Navigation
     document.getElementById('homeLink').addEventListener('click', (e) => {
         e.preventDefault();
         adminSection.style.display = 'none';
         document.querySelector('.hero').style.display = 'block';
         document.querySelector('.candidates').style.display = 'grid';
         document.querySelector('.vote-section').style.display = 'block';
-        
-        // Update active nav link
         updateActiveNavLink('homeLink');
-        
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
@@ -1791,10 +1989,7 @@
         document.querySelector('.hero').style.display = 'block';
         document.querySelector('.candidates').style.display = 'grid';
         document.querySelector('.vote-section').style.display = 'block';
-        
-        // Update active nav link
         updateActiveNavLink('candidatesLink');
-        
         document.querySelector('.section-title').scrollIntoView({ behavior: 'smooth' });
     });
 
@@ -1804,14 +1999,10 @@
         document.querySelector('.hero').style.display = 'block';
         document.querySelector('.candidates').style.display = 'grid';
         document.querySelector('.vote-section').style.display = 'block';
-        
-        // Update active nav link
         updateActiveNavLink('voteLink');
-        
-        document.getElementById('submitVote').scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('.vote-section').scrollIntoView({ behavior: 'smooth' });
     });
 
-    // Check authentication state on page load
     document.addEventListener('DOMContentLoaded', checkAuthState);
 </script>
 </body>
