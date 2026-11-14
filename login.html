@@ -3,35 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Pemilihan Formatur IMM JPMIPA 2025</title>
+    <title>Login - Pemilihan Formatur IMM JPMIPA 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, sans-serif;
         }
 
         :root {
             --maroon: #800000;
             --light-maroon: #a52a2a;
             --dark-maroon: #5a0000;
-            --cream: #f5f5dc;
-            --gold: #daa520;
-            --light-gold: #f0d483;
+            --cream: #faf7f2;
+            --cream-dark: #f2ede4;
+            --gold: #d4a017;
+            --gold-light: #f0d483;
+            --gold-pale: #fbf6e9;
+            --text-dark: #1f1a17;
+            --text-mid: #57504a;
+            --text-light: #8a8178;
+            --border: #ece6da;
         }
 
         body {
-            background-color: var(--cream);
-            color: #333;
+            background:
+                radial-gradient(1200px 600px at 100% -10%, rgba(212, 160, 23, 0.08), transparent 60%),
+                radial-gradient(900px 500px at 0% 0%, rgba(128, 0, 0, 0.06), transparent 55%),
+                var(--cream);
+            color: var(--text-dark);
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
@@ -40,12 +50,23 @@
             padding: 0 20px;
         }
 
-        /* Header Styles */
+        /* ===== FLOATING HEADER ===== */
         header {
-            background: linear-gradient(135deg, var(--dark-maroon), var(--maroon));
+            background: linear-gradient(135deg, rgba(90, 0, 0, 0.96), rgba(128, 0, 0, 0.96) 55%, rgba(150, 24, 24, 0.96));
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             color: white;
-            padding: 0.8rem 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            padding: 0.7rem 1.4rem;
+            box-shadow:
+                0 14px 44px -14px rgba(90, 0, 0, 0.55),
+                0 4px 14px rgba(0, 0, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+            position: sticky;
+            top: 14px;
+            z-index: 1000;
+            border-radius: 24px;
+            margin: 14px 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.14);
         }
 
         .header-content {
@@ -57,7 +78,7 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .logo-icon {
@@ -66,58 +87,89 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
+            background: white;
+            box-shadow:
+                0 0 0 2px rgba(212, 160, 23, 0.6),
+                0 6px 18px rgba(0, 0, 0, 0.28);
+            flex-shrink: 0;
         }
 
-        .logo i {
-            font-size: 1.8rem;
-            color: var(--dark-maroon);
+        .logo-icon img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .logo-text h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1.2;
+            font-size: 1.35rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
         }
 
         .logo-text span {
-            font-size: 0.9rem;
+            font-size: 0.78rem;
             display: block;
-            font-weight: 400;
-            opacity: 0.9;
+            font-weight: 500;
+            opacity: 0.85;
         }
 
-        /* Login Section */
+        /* ===== LOGIN SECTION ===== */
         .login-section {
             display: flex;
             justify-content: center;
             align-items: center;
             flex: 1;
-            padding: 2rem 0;
+            padding: 2.5rem 0;
         }
 
         .login-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(90, 0, 0, 0.12);
             width: 100%;
-            max-width: 450px;
+            max-width: 460px;
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .login-header {
             background: linear-gradient(135deg, var(--dark-maroon), var(--maroon));
             color: white;
-            padding: 2rem;
+            padding: 2.2rem 2rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(400px 200px at 20% 20%, rgba(240, 212, 131, 0.14), transparent 60%),
+                radial-gradient(300px 150px at 80% 80%, rgba(255, 255, 255, 0.08), transparent 60%);
+            pointer-events: none;
+        }
+
+        .login-header h2,
+        .login-header p {
+            position: relative;
+            z-index: 1;
         }
 
         .login-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.02em;
         }
 
         .login-header p {
             opacity: 0.9;
+            font-size: 0.92rem;
         }
 
         .login-body {
@@ -125,105 +177,152 @@
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--maroon);
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 0.86rem;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border 0.3s;
+            padding: 13px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            transition: all 0.25s ease;
+            background: var(--cream);
+            color: var(--text-dark);
         }
 
         .form-group input:focus {
-            border-color: var(--maroon);
             outline: none;
+            border-color: var(--maroon);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(128, 0, 0, 0.08);
+        }
+
+        .form-group input::placeholder {
+            color: #b3a99c;
         }
 
         .btn {
-            display: inline-block;
-            background: var(--gold);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%);
             color: white;
-            padding: 12px 30px;
-            border-radius: 5px;
+            padding: 14px 30px;
+            border-radius: 14px;
             text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
             cursor: pointer;
             width: 100%;
-            text-align: center;
+            box-shadow: 0 6px 18px rgba(212, 160, 23, 0.35);
         }
 
         .btn:hover {
-            background: #b8860b;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(212, 160, 23, 0.45);
+        }
+
+        .btn:active { transform: translateY(0); }
+
+        .btn:disabled {
+            background: #e5e0d8 !important;
+            color: #a8a093 !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
         .form-footer {
             text-align: center;
             margin-top: 1.5rem;
             padding-top: 1.5rem;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-mid);
         }
 
         .form-footer a {
             color: var(--maroon);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 700;
         }
 
         .form-footer a:hover {
             text-decoration: underline;
         }
 
+        .form-footer p + p {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
         .alert {
-            padding: 12px 15px;
-            border-radius: 5px;
-            margin-bottom: 1.5rem;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 1.25rem;
             display: none;
+            font-size: 0.88rem;
+            font-weight: 600;
         }
 
         .alert-error {
-            background: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
         }
 
         .alert-success {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
+            background: #dcfce7;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
         }
 
-        /* Footer */
+        /* ===== FOOTER ===== */
         footer {
-            background: var(--dark-maroon);
+            background: linear-gradient(135deg, var(--dark-maroon), #3a0000);
             color: white;
-            padding: 2rem 0;
+            padding: 2.5rem 0 1.5rem;
             text-align: center;
+            border-radius: 28px 28px 0 0;
+            margin: 3rem 20px 0;
         }
 
         .footer-content {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 0.4rem;
         }
 
         .footer-logo {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--gold);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            margin-bottom: 0.6rem;
+            border: 1px solid rgba(240, 212, 131, 0.35);
+        }
+
+        .footer-logo img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
         }
 
         .footer-links {
@@ -233,23 +332,58 @@
         }
 
         .footer-links a {
-            color: white;
+            color: rgba(255, 255, 255, 0.75);
             text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
         .footer-links a:hover {
-            text-decoration: underline;
+            color: var(--gold-light);
         }
 
-        /* Responsive */
+        footer p {
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
+            header {
+                top: 10px;
+                margin: 10px 12px 0;
+                padding: 0.65rem 1rem;
+                border-radius: 18px;
+            }
+
+            .logo-text h1 { font-size: 1.15rem; }
+            .logo-text span { font-size: 0.72rem; }
+            .logo-icon { width: 44px; height: 44px; }
+            .logo-icon img { width: 40px; height: 40px; }
+
             .login-container {
-                margin: 0 20px;
+                margin: 0 12px;
+                border-radius: 20px;
             }
-            
-            .login-body {
-                padding: 1.5rem;
+
+            .login-header { padding: 1.8rem 1.5rem; }
+            .login-header h2 { font-size: 1.5rem; }
+            .login-body { padding: 1.5rem; }
+
+            footer {
+                margin: 2.5rem 12px 0;
+                border-radius: 22px 22px 0 0;
             }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 14px; }
+            .login-header h2 { font-size: 1.35rem; }
+            .login-header p { font-size: 0.85rem; }
+            .login-body { padding: 1.25rem; }
+            .footer-links { gap: 1.2rem; }
+            .footer-links a { font-size: 0.82rem; }
         }
     </style>
 </head>
@@ -259,7 +393,7 @@
         <div class="container header-content">
             <div class="logo">
                 <div class="logo-icon">
-                    <img src="picture/imm.png" alt="Logo IMM" style="width:50px; height:50px; border-radius:50%;">
+                    <img src="picture/imm.png" alt="Logo IMM">
                 </div>
                 <div class="logo-text">
                     <h1>IMM JPMIPA</h1>
@@ -274,32 +408,35 @@
         <div class="login-container">
             <div class="login-header">
                 <h2>Masuk ke Sistem</h2>
-                <p>Login untuk mengakses sistem Pemilihan Formatur IMM JPMIPA 2025</p>
+                <p>Login untuk mengakses sistem Pemilihan Formatur IMM JPMIPA 2026</p>
             </div>
             <div class="login-body">
                 <div class="alert alert-error" id="errorAlert"></div>
                 <div class="alert alert-success" id="successAlert"></div>
-                
+
                 <form id="loginForm">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Masukkan email Anda" required>
+                        <input type="email" id="email" placeholder="Masukkan email Anda" autocomplete="email" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Masukkan password Anda" required>
+                        <input type="password" id="password" placeholder="Masukkan password Anda" autocomplete="current-password" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="nim">NIM</label>
-                        <input type="text" id="nim" placeholder="Masukkan NIM Anda" required>
+                        <input type="text" id="nim" placeholder="Masukkan NIM Anda" autocomplete="off" required>
                     </div>
-                    
-                    <button type="submit" class="btn">Masuk</button>
+
+                    <button type="submit" class="btn" id="loginBtn">
+                        <i class="fas fa-right-to-bracket"></i> Masuk
+                    </button>
                 </form>
-                
+
                 <div class="form-footer">
+                    <p>Belum punya akun? <a href="register.html">Daftar di sini</a></p>
                     <p><a href="index.html">Kembali ke Beranda</a></p>
                 </div>
             </div>
@@ -310,114 +447,172 @@
     <footer>
         <div class="container footer-content">
             <div class="footer-logo">
-                 <img src="picture/imm.png" alt="Logo IMM" style="width:50px; height:50px; border-radius:50%;">
+                <img src="picture/imm.png" alt="Logo IMM">
             </div>
-            <p>Pemilihan Formatur IMM JPMIPA 2025</p>
+            <p>Pemilihan Formatur IMM JPMIPA 2026</p>
             <div class="footer-links">
                 <a href="#">Tentang</a>
                 <a href="#">Kebijakan Privasi</a>
                 <a href="#">Kontak</a>
             </div>
-            <p>&copy; 2025 IMM JPMIPA. Semua hak dilindungi.</p>
+            <p>&copy; 2026 IMM JPMIPA. Semua hak dilindungi.</p>
         </div>
     </footer>
 
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyDhJj0hNeDIsD3jxnOPxHWyvvfXwNUxE8I",
-          authDomain: "immuad-1d18a.firebaseapp.com",
-          projectId: "immuad-1d18a",
-          storageBucket: "immuad-1d18a.firebasestorage.app",
-          messagingSenderId: "558116990905",
-          appId: "1:558116990905:web:27d7df924f28a089dbd068",
-          measurementId: "G-0YBW40V890"
-        };
+<script type="module">
+    // ==================== IMPORTS MODULAR SDK v13.3.0 ====================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
+    import {
+        getFirestore,
+        doc,
+        getDoc
+    } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+    // ==================== FIREBASE INIT ====================
+    const firebaseConfig = {
+        apiKey: "AIzaSyClyCZ2khr-7axTAscc68LeOpRs3_1UZaQ",
+        authDomain: "immjp-d7897.firebaseapp.com",
+        projectId: "immjp-d7897",
+        storageBucket: "immjp-d7897.firebasestorage.app",
+        messagingSenderId: "123997569817",
+        appId: "1:123997569817:web:95d13b4a334fa393d53b88",
+        measurementId: "G-KCQ1K21745"
+    };
 
-        // DOM Elements
-        const loginForm = document.getElementById('loginForm');
-        const errorAlert = document.getElementById('errorAlert');
-        const successAlert = document.getElementById('successAlert');
+    const app = initializeApp(firebaseConfig);
+    try { getAnalytics(app); } catch (e) { console.warn('Analytics tidak tersedia:', e); }
 
-        // Show alert message
-        function showAlert(alertElement, message) {
-            alertElement.textContent = message;
-            alertElement.style.display = 'block';
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ==================== DOM ELEMENTS ====================
+    const loginForm = document.getElementById('loginForm');
+    const errorAlert = document.getElementById('errorAlert');
+    const successAlert = document.getElementById('successAlert');
+    const loginBtn = document.getElementById('loginBtn');
+
+    // ==================== HELPERS ====================
+    function showAlert(alertElement, message) {
+        alertElement.textContent = message;
+        alertElement.style.display = 'block';
+        setTimeout(() => {
+            alertElement.style.display = 'none';
+        }, 5000);
+    }
+
+    function setLoading(isLoading) {
+        loginBtn.disabled = isLoading;
+        loginBtn.innerHTML = isLoading
+            ? '<i class="fas fa-spinner fa-spin"></i> Memproses...'
+            : '<i class="fas fa-right-to-bracket"></i> Masuk';
+    }
+
+    // ==================== LOGIN SUBMIT ====================
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const nim = document.getElementById('nim').value.trim();
+
+        setLoading(true);
+
+        // 1) Sign in dengan Firebase Auth (modular)
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                // 2) Ambil data user dari Firestore
+                return getDoc(doc(db, 'users', user.uid));
+            })
+            .then((docSnap) => {
+                if (!docSnap.exists()) {
+                    return signOut(auth).then(() => {
+                        throw { code: 'custom/user-data-missing' };
+                    });
+                }
+
+                const userData = docSnap.data();
+
+                // 3) Admin tidak boleh login lewat halaman ini
+                if (userData.isAdmin) {
+                    return signOut(auth).then(() => {
+                        throw { code: 'custom/admin-blocked' };
+                    });
+                }
+
+                // 4) Verifikasi NIM harus cocok dengan data Firestore
+                if ((userData.nim || '').toString().trim() !== nim) {
+                    return signOut(auth).then(() => {
+                        throw { code: 'custom/nim-mismatch' };
+                    });
+                }
+
+                // 5) Login sukses → redirect
+                showAlert(successAlert, 'Login berhasil! Mengalihkan...');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1200);
+            })
+            .catch((error) => {
+                console.error('Login error:', error);
+                let errorMessage = 'Terjadi kesalahan saat login.';
+
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'Email tidak terdaftar.';
+                        break;
+                    case 'auth/wrong-password':
+                    case 'auth/invalid-credential':
+                        errorMessage = 'Email atau password salah.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Format email tidak valid.';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'Akun Anda telah dinonaktifkan.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Terlalu banyak percobaan. Coba lagi beberapa saat.';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = 'Koneksi jaringan bermasalah. Silakan coba lagi.';
+                        break;
+                    case 'custom/user-data-missing':
+                        errorMessage = 'Data pengguna tidak ditemukan di database.';
+                        break;
+                    case 'custom/admin-blocked':
+                        errorMessage = 'Admin tidak dapat login melalui halaman ini!';
+                        break;
+                    case 'custom/nim-mismatch':
+                        errorMessage = 'NIM tidak sesuai dengan data akun.';
+                        break;
+                }
+
+                showAlert(errorAlert, errorMessage);
+            })
+            .finally(() => setLoading(false));
+    });
+
+    // ==================== AUTH STATE LISTENER ====================
+    // Jika user sudah login sebelumnya → langsung redirect ke halaman utama
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // Beri waktu sebentar agar tidak redirect sebelum
+            // proses login (submit) selesai redirect manual
             setTimeout(() => {
-                alertElement.style.display = 'none';
-            }, 5000);
+                if (auth.currentUser && window.location.pathname.includes('login')) {
+                    window.location.href = 'index.html';
+                }
+            }, 300);
         }
-
-        // Login form submission
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const nim = document.getElementById('nim').value;
-            
-            // Sign in with Firebase Auth
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Signed in
-                    const user = userCredential.user;
-                    
-                    // Get user data from Firestore
-                    return db.collection('users').doc(user.uid).get();
-                })
-                .then((doc) => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        
-                        // Check if user is admin (shouldn't be able to login here)
-                        if (userData.isAdmin) {
-                            // Admin trying to login through student form, sign out
-                            auth.signOut();
-                            showAlert(errorAlert, 'Admin tidak dapat login melalui halaman ini!');
-                            return;
-                        }
-                        
-                        // Login successful, redirect to main page
-                        showAlert(successAlert, 'Login berhasil! Mengalihkan...');
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 1500);
-                    } else {
-                        showAlert(errorAlert, 'Data pengguna tidak ditemukan!');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Login error:', error);
-                    let errorMessage = 'Terjadi kesalahan saat login.';
-                    
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                            errorMessage = 'Email tidak terdaftar.';
-                            break;
-                        case 'auth/wrong-password':
-                            errorMessage = 'Password salah.';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage = 'Format email tidak valid.';
-                            break;
-                    }
-                    
-                    showAlert(errorAlert, errorMessage);
-                });
-        });
-
-        // Check if user is already logged in
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // User is signed in, redirect to main page
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
